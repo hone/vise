@@ -8,7 +8,10 @@ module Vise
 
     # @param [String] path to the build dir
     # @param [String] path to the cache dir
-    # ensures the build dir is clean
+    # ensures the following:
+    # * move the building scripts into /tmp
+    # * the script /tmp/build` is executable
+    # * build dir is clean
     def initialize(build_dir, cache_dir)
       @build_dir = build_dir
       @cache_dir = cache_dir
@@ -20,8 +23,7 @@ module Vise
     # this is the main compile method.
     # pass a block to compile of what you want to run.
     # the block gets the source dir to work in, and a
-    # build dir. An output tarball is created from the contents
-    # of this final tarball.
+    # build dir which is the dir that gets packaged.
     def compile
       tmpdir  = Dir.mktmpdir
       Dir.chdir(tmpdir) do |source_dir, build_dir|
